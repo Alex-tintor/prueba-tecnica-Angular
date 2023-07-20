@@ -60,7 +60,7 @@ export class LoginComponent {
           this.loginForm.disable()
           this.isLoading=true
           this.loginFailed = false
-          this.router.navigate(['/dashboard/carga']);
+          this.router.navigate(['/dashboard/inicio']);
         }else{
           this.loginForm.enable()
           this.isLoading=false;

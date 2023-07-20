@@ -8,6 +8,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
 import { DocComponent } from './Components/doc/doc.component';
+import { StatesComponent } from './Components/states/states.component';
+import { GraphicsComponent } from './Components/graphics/graphics.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from './Components/dialog/dialog.component';
 
 const dbConfig: DBConfig ={
   name : 'testDb',
@@ -26,13 +31,18 @@ const dbConfig: DBConfig ={
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    DocComponent
+    DocComponent,
+    StatesComponent,
+    GraphicsComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgxIndexedDBModule.forRoot()
+    NgxIndexedDBModule.forRoot(),
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
