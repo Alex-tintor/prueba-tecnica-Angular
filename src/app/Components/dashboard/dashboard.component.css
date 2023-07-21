@@ -1,0 +1,10 @@
+.nav-color{
+    background-color: var(--secondary-color);
+}
+.nav-link{
+    color: var(--principal-color);
+}
+.nav-link.active{
+    color: white;
+    font-weight: 700;
+}
