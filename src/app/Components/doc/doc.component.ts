@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConvertCsvService } from 'src/app/Services/convert-csv.service';
-import { MatDialog } from '@angular/material/dialog'
-import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-doc',
@@ -11,6 +9,8 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./doc.component.css']
 })
 export class DocComponent {
+
+  @ViewChild('fileInput') fileInput!: ElementRef
 
   public formFile:FormGroup;
   public isLoading:boolean = false;
@@ -47,12 +47,13 @@ export class DocComponent {
   }
 
   public onSubmmit(){
+    const file = this.fileInput.nativeElement.files[0];
     if(this.isFormValid()){
       let dialogRef;
       this.isLoading = true;
       this.formFile.disable();
       this.uploadFailed = false;
-      this.csv.parseFile(this.formFile.get('doc')?.value)
+      this.csv.parseFile(file)
         .then(() => {
           this.isLoading = false;
           this.uploadFailed = false;

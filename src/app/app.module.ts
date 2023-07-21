@@ -12,14 +12,13 @@ import { StatesComponent } from './Components/states/states.component';
 import { GraphicsComponent } from './Components/graphics/graphics.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogComponent } from './Components/dialog/dialog.component';
 
 const dbConfig: DBConfig ={
   name : 'testDb',
-  version : 1,
+  version : 2,
   objectStoresMeta :[{
     store: 'dataFile',
-    storeConfig :{keyPath:'id', autoIncrement: false},
+    storeConfig :{keyPath:'id', autoIncrement: true},
     storeSchema:[
       {name:'data',keypath:'data',options:{unique:false}}
     ]
@@ -33,14 +32,13 @@ const dbConfig: DBConfig ={
     DashboardComponent,
     DocComponent,
     StatesComponent,
-    GraphicsComponent,
-    DialogComponent
+    GraphicsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgxIndexedDBModule.forRoot(),
+    NgxIndexedDBModule.forRoot(dbConfig),
     BrowserAnimationsModule,
     MatDialogModule
   ],

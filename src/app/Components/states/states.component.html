@@ -1,10 +1,29 @@
 <div class="position-absolute vw-100 vh-100">
     <div class="row m-0 w-100 h-100 align-items-center justify-content-center">
-        <div class="col-auto text-center">
+        <div *ngIf="data == null" class="col-auto text-center">
             <p class="fs-4 fw-bolder">Para acceder a las Respuestas por favor cargue el achivo .csv <br> si no sabe donde hacerlo por favor presione el boton:</p>
             <button class="w-100 btn btn-outline-info" routerLink="/dashboard/inicio">Cargar Archivo</button>
         </div>
-        
+        <div class="col-auto text-center row row-cols-3">
+            <div class="card m-auto">
+                <div class="card-body">
+                  <h3 class="card-title fw-bold text-danger">{{maxAndMinData?.maxState}}</h3>
+                  <h6 class="card-subtitle mb-2 text-warning">estado mas afectado</h6>
+                  <p class="card-text">Segun nuestres investigaciones <strong class="fw-bold text-danger fs-4">{{maxAndMinData?.maxState}}</strong> es el estado mas afectado
+                    con un total de <strong class="text-danger fs-4">{{maxAndMinData?.maxValue}}</strong> habitantes fallecitos por Covid-19
+                </p>
+                </div>
+            </div>
+            <div class="card m-auto">
+                <div class="card-body">
+                  <h3 class="card-title fw-bold text-success">{{maxAndMinData?.minState}}</h3>
+                  <h6 class="card-subtitle mb-2 text-warning">estado menos afectado</h6>
+                  <p class="card-text">Segun nuestres investigaciones <strong class="fw-bold text-success fs-4">{{maxAndMinData?.minState}}</strong> es el estado mas afectado
+                    con un total de <strong class="text-danger fs-4">{{maxAndMinData?.minValue}}</strong> habitantes fallecitos por Covid-19
+                </p>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

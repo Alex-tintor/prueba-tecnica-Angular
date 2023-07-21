@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { ConvertCsvService } from 'src/app/Services/convert-csv.service';
 
 @Component({
   selector: 'app-states',
@@ -9,24 +10,33 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 })
 export class StatesComponent {
 
-  datos: any[] = [];
+  data: any[] = [];
 
-  constructor(private dbService:NgxIndexedDBService){}
+  states: string[] = [];
 
-  ngOnInit():void{
-    this.loadData()
-    this.verdespues()
+  maxAndMinData: { minState: string, minValue: number, maxState: string, maxValue: number } | null = null;
+
+
+  constructor(private dbService:NgxIndexedDBService, private csv:ConvertCsvService){}
+
+  async ngOnInit():Promise<void>{
+    this.data = await this.csv.loadData()
+    this.getStates()
+    this.getMaxAndMinData()
   }
 
-  private loadData(){
-    this.dbService.getAll('dataFile').subscribe((datos=>{this.datos = datos}),(error)=>{console.log(error)})
+
+  getStates(){
+    this.csv.getAllStates().subscribe(state => this.states = state)
   }
 
-  verdespues(){
-    setTimeout(() => {
-      console.log(this.datos)
-    },5000);
+  getStatsByState(){
+    this.csv.getMostRecentRecordsByState(this.states);
   }
-  
+
+  getMaxAndMinData(){
+    this.csv.findExtremeStates("4/27/21").then(data => this.maxAndMinData = data);
+  }
+
 
 }
