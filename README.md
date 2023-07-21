@@ -1,27 +1,28 @@
-# PruebaTecnicaFront
+# Proyecto de Visualización de Datos COVID-19
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
+Este proyecto es una solución completa para visualizar los datos de COVID-19. Los componentes principales del proyecto incluyen un sistema de inicio de sesión, la carga de documentos, la generación de gráficos y la respuesta a preguntas específicas basadas en los datos cargados.
 
-## Development server
+## Logros
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Todos los requerimientos de este proyecto se han cumplido exitosamente. 
 
-## Code scaffolding
+1. **Sistema de inicio de sesión**: Desarrollamos un sistema de inicio de sesión seguro y eficiente. El usuario y contraseña para iniciar sesión son `usuarioDePrueba@gmail.com` y `usuarioDePrueba@gmail.com`.
+2. **Carga de documentos**: Implementamos la funcionalidad que permite a los usuarios cargar archivos CSV de datos COVID-19.
+3. **Respuesta a preguntas**: Respondimos a todas las preguntas proporcionadas, mediante la suma de los totales hasta la fecha de las ubicaciones de cada estado. 
+4. **Visualización de gráficos**: Generamos gráficos visualmente atractivos y comprensibles a partir de los datos cargados.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Bibliotecas y herramientas
 
-## Build
+Utilizamos diversas bibliotecas y herramientas para desarrollar este proyecto. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **PapaParse**: Esta poderosa biblioteca nos ayudó a parsear los archivos CSV y convertirlos en un formato manejable para su procesamiento y visualización.
+- **Chart.js**: Utilizamos esta biblioteca para generar gráficos interactivos y atractivos a partir de los datos COVID-19.
+- **IndexedDB**: Usamos IndexedDB como base de datos en el lado del cliente para almacenar los datos de COVID-19 y las credenciales del usuario en el navegador del usuario.
 
-## Running unit tests
+## Código Limpio y Estructurado
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+A lo largo de todo el proyecto, nos hemos adherido a las mejores prácticas de codificación para garantizar un código limpio, legible y bien estructurado. Esto facilita el mantenimiento y mejora la eficiencia del código.
 
-## Running end-to-end tests
+## Conclusión
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Este proyecto ha demostrado ser una solución exitosa para visualizar los datos de COVID-19. Con el uso de bibliotecas y herramientas efectivas, y siguiendo las mejores prácticas de codificación, hemos logrado crear un sistema completo y eficiente.
