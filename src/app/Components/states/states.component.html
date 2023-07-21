@@ -7,21 +7,24 @@
         <div class="col-auto text-center row row-cols-3">
             <div class="card m-auto">
                 <div class="card-body">
-                  <h3 class="card-title fw-bold text-danger">{{maxAndMinData?.maxState}}</h3>
+                  <h3 class="card-title fw-bold text-danger">{{data[0].maxState}}</h3>
                   <h6 class="card-subtitle mb-2 text-warning">estado mas afectado</h6>
-                  <p class="card-text">Segun nuestres investigaciones <strong class="fw-bold text-danger fs-4">{{maxAndMinData?.maxState}}</strong> es el estado mas afectado
-                    con un total de <strong class="text-danger fs-4">{{maxAndMinData?.maxValue}}</strong> habitantes fallecitos por Covid-19
+                  <p class="card-text">Segun nuestras investigaciones <strong class="fw-bold text-danger fs-4">{{data[0].maxState}}</strong> es el estado mas afectado
+                    con un total de <strong class="text-danger fs-4">{{data[0].maxDeaths}}</strong> habitantes fallecitos por Covid-19
                 </p>
                 </div>
             </div>
             <div class="card m-auto">
                 <div class="card-body">
-                  <h3 class="card-title fw-bold text-success">{{maxAndMinData?.minState}}</h3>
+                  <h3 class="card-title fw-bold text-success">{{data[0].minState}}</h3>
                   <h6 class="card-subtitle mb-2 text-warning">estado menos afectado</h6>
-                  <p class="card-text">Segun nuestres investigaciones <strong class="fw-bold text-success fs-4">{{maxAndMinData?.minState}}</strong> es el estado mas afectado
-                    con un total de <strong class="text-danger fs-4">{{maxAndMinData?.minValue}}</strong> habitantes fallecitos por Covid-19
+                  <p class="card-text">Segun nuestras investigaciones <strong class="fw-bold text-success fs-4">{{data[0].minState}}</strong> es el estado menos afectado
+                    con un total de <strong class="text-danger fs-4">{{data[0].minDeaths}}</strong> habitantes fallecitos por Covid-19
                 </p>
                 </div>
+            </div>
+            <div class="col-12 p-3 fs-4 my-3">
+                <p class="w-auto ">sabemos que {{data[0].maxState}} es el estado que posee un mayor acumulado hasta la fecha debido a que realizamos los calculos de casos reportados en todo el estado para poder determinar esto mismo y viceversa en el caso de {{data[0].minState}}</p>
             </div>
         </div>
     </div>

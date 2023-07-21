@@ -12,49 +12,32 @@ Chart.register(...registerables)
 })
 export class GraphicsComponent implements AfterViewInit{
 
-  states : Array<string> = [];
-
   data : any[] = []
 
   chart: any;
 
+  ids:string[] = []
+
   constructor(private csv:ConvertCsvService, private cd:ChangeDetectorRef){}
 
   async ngAfterViewInit():Promise<any> {
-    this.data = await this.csv.loadData()
-    await this.setDataByStates()
-    console.log(Object.keys(this.data[0][0]))
-    
-    // for(let state of this.states){
-    //   this.createPieChart(100,value.Population,value.Province_State,value.UID)
-    // }
-    // this.cd.detectChanges();
-    
-
-    // for(let value of this.data[0]){
-    //   this.createPieChart(100,value.Population,value.Province_State,value.UID)
-    // }
-    // this.data.forEach(element => {
-    //   console.log(element);
-    // });
-  }
-
-  async ngOnInit(){
-    
-
-  }
-
-  async setDataByStates() {
-    return new Promise((resolve) => {
-      this.csv.getAllStates().subscribe(estat => {
-        this.states = estat;
-        resolve(true);
+    let totals= await this.csv.getInfo()
+    this.data = [totals];
+    this.cd.detectChanges();
+    this.data.forEach(value => {
+      Object.values(value).forEach((sec: any) => {
+        let elementId = "UID"+sec.uid ;
+        this.ids.push(elementId);
+        console.log("Creando gráfico para el elemento con ID:", elementId);
+        this.createPieChart(sec.deaths, sec.population, elementId);
       });
     });
   }
 
-  createPieChart(muertes:number,poblacion:number, estado:string, id:string){
-    this.chart = new Chart("UID"+id, {
+  async ngOnInit(){}
+
+  createPieChart(muertes:number,poblacion:number, id:string){
+    this.chart = new Chart(id, {
       type: 'pie',
       data: {
         labels: ['muertes', 'poblacion'],
@@ -74,13 +57,7 @@ export class GraphicsComponent implements AfterViewInit{
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        plugins:{
-          title:{
-            display:true,
-            text:estado
-          }
-        }
+        maintainAspectRatio: false
       }
     });
   }

@@ -10,7 +10,9 @@ import { map } from 'rxjs/operators';
 })
 export class ConvertCsvService {
 
-  constructor(private dbService:NgxIndexedDBService) { }
+  constructor(private dbService:NgxIndexedDBService) {
+    this.getInfo();
+  }
 
   parseFile(file: any): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -57,56 +59,57 @@ export class ConvertCsvService {
     );
   }
 
-  getRecordsByState(state: string, records: any[][]): any[] {
-    return records[0].filter(record => record.Province_State === state);
+  async getInfo():Promise<any>{
+    let data :any[] =[] ;
+    data = await this.loadData()
+    let maxDate = this.getLatestDate(Object.keys(data[0][0]));
+    // console.log(maxDate)
+
+    let filterObj = data[0].map((e:any) => ({state: e.Province_State, population: e.Population, deaths: e[maxDate], uid : e.UID}));
+    // console.log(filterObj[0])
+    let totals = filterObj.reduce((acc:any, obj:any) => {
+      acc[obj.state] = (acc[obj.state] || {population: 0, deaths: 0});
+      acc[obj.state].population += Number(obj.population);
+      acc[obj.state].deaths += Number(obj.deaths);
+      acc[obj.state].uid = Number(obj.uid);
+      return acc;
+    }, {});
+    return totals;
   }
 
-
-  getMostRecentRecord(records: any[]): any {
-    return records.reduce((mostRecent, current) => {
-      const mostRecentDate = new Date(mostRecent["4/27/21"]);
-      const currentDate = new Date(current["4/27/21"]);
-      return currentDate > mostRecentDate ? current : mostRecent;
-    }, records[0]);
-  }
-
-  async getMostRecentRecordsByState(states: string[]): Promise<{[state: string]: any}> {
-    const allRecords = await this.loadData();  // Asume que loadData() devuelve todos los registros
-    let mostRecentByState: {[state: string]: any} = {};
-    for (let state of states) {
-      const stateRecords = this.getRecordsByState(state, allRecords);
-      mostRecentByState[state] = this.getMostRecentRecord(stateRecords);
-    }
-    return mostRecentByState;
-  }
-
-  async findExtremeStates(key: string) {
-    let states: string[] = [];
-    await this.getAllStates().toPromise().then(data => states = data || []);
-    const mostRecentByState = await this.getMostRecentRecordsByState(states);
-    let minValue = Infinity;
-    let minState = "";
-    let maxValue = -Infinity;
-    let maxState = "";
-    for (let state in mostRecentByState) {
-      const record = mostRecentByState[state];
-      if (record) {
-        const value = record[key];
-        if (value < minValue) {
-          minValue = value;
-          minState = state;
-        }
-        if (value > maxValue) {
-          maxValue = value;
-          maxState = state;
-        }
+  getLatestDate(arr: string[]): string {
+    let dateRegEx = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
+    let dateArr = arr.filter(str => dateRegEx.test(str));
+    let dateObjects = dateArr.map(dateStr => {
+      let [month, day, year] = dateStr.split('/');
+      // Ajuste para fechas de dos dígitos
+      if(year.length === 2) {
+        year = "20" + year;
       }
-    }
-    return {
-      minState: minState,
-      minValue: minValue,
-      maxState: maxState,
-      maxValue: maxValue
-    };
+      return {
+        date: new Date(`${year}-${month}-${day}`),
+        original: dateStr
+      };
+    });
+    let latestDate = dateObjects.reduce((latest, current) => {
+      return current.date > latest.date ? current : latest;
+    }, dateObjects[0]);
+    return latestDate.original;
   }
+
+  findExtremeDeaths = (totals: {[key: string]: {population: number, deaths: number}}):
+    {minState: string, minDeaths: number, maxState: string, maxDeaths: number} =>
+    Object.entries(totals).reduce((acc, [state, data]) => {
+        if (data.deaths < acc.minDeaths) {
+            acc.minDeaths = data.deaths;
+            acc.minState = state;
+        }
+        if (data.deaths > acc.maxDeaths) {
+            acc.maxDeaths = data.deaths;
+            acc.maxState = state;
+        }
+        return acc;
+    }, {minState: '', minDeaths: Infinity, maxState: '', maxDeaths: -Infinity});
+
+
 }

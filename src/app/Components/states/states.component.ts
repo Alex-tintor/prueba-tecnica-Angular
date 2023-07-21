@@ -12,31 +12,18 @@ export class StatesComponent {
 
   data: any[] = [];
 
-  states: string[] = [];
-
-  maxAndMinData: { minState: string, minValue: number, maxState: string, maxValue: number } | null = null;
-
-
   constructor(private dbService:NgxIndexedDBService, private csv:ConvertCsvService){}
 
   async ngOnInit():Promise<void>{
     this.data = await this.csv.loadData()
     this.getStates()
-    this.getMaxAndMinData()
   }
 
 
-  getStates(){
-    this.csv.getAllStates().subscribe(state => this.states = state)
+  async getStates(){
+    let totals = await this.csv.getInfo()
+    let extremeStates = this.csv.findExtremeDeaths(totals)
+    this.data = [extremeStates]
   }
-
-  getStatsByState(){
-    this.csv.getMostRecentRecordsByState(this.states);
-  }
-
-  getMaxAndMinData(){
-    this.csv.findExtremeStates("4/27/21").then(data => this.maxAndMinData = data);
-  }
-
 
 }
